@@ -18,7 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "CLCD.h"
+#include "stdio.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -94,7 +95,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	// thay doi day
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
