@@ -1,8 +1,4 @@
 /******************************************************************************************************************
-@File:  	CLCD 8BIT (Character LCD 8Bit Mode)
-@Author:  Khue Nguyen
-@Website: khuenguyencreator.com
-@Youtube: https://www.youtube.com/channel/UCt8cFnPOaHrQXWmVkk-lfvg
 Huong dan su dung:
 - Su dung thu vien HAL
 - Khoi tao bien LCD: CLCD_8BIT_Name LCD1;

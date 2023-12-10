@@ -47,6 +47,10 @@
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+CLCD_Name LCD1;
+char LCD_send [16];
+CLCD_8BIT_Init(CLCD_Name * LCD1, 16, 2, CS_GPIO_Port, CS_Pin, EN_GPIO_Port, EN_Pin, D0_GPIO_Port, D0_Pin, D1_GPIO_Port, D1_Pin,D2_GPIO_Port, D2_Pin, D2_GPIO_Port, D2_Pin, D3_GPIO_Port,D3_Pin,D4_GPIO_Port, D4_Pin,D5_GPIO_Port, D5_Pin, D6_GPIO_Port,D6_Pin ,D7_GPIO_Port, D7_Pin)
+void 
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
