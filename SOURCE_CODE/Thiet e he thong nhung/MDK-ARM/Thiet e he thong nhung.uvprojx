@@ -412,6 +412,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\STM32_Device_Lib-master\STM32_Device_Lib-master\CLCD\CLCD.c</FilePath>
             </File>
+            <File>
+              <FileName>BUTTON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\STM32_Device_Lib-master\STM32_Device_Lib-master\Button\BUTTON.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
