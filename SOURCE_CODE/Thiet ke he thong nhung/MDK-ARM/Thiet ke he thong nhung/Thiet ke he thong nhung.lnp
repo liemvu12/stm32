@@ -2,6 +2,7 @@
 "thiet ke he thong nhung\startup_stm32f103xb.o"
 "thiet ke he thong nhung\clcd_i2c.o"
 "thiet ke he thong nhung\button.o"
+"thiet ke he thong nhung\setpoint_interrup.o"
 "thiet ke he thong nhung\main.o"
 "thiet ke he thong nhung\stm32f1xx_it.o"
 "thiet ke he thong nhung\stm32f1xx_hal_msp.o"

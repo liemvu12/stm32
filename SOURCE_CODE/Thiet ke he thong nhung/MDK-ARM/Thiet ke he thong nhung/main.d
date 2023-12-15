@@ -26,6 +26,7 @@ thiet ke he thong nhung\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ha
 thiet ke he thong nhung\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 thiet ke he thong nhung\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 thiet ke he thong nhung\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-thiet ke he thong nhung\main.o: ../Core/Inc/BUTTON.h
 thiet ke he thong nhung\main.o: ../Core/Inc/CLCD_I2C.h
+thiet ke he thong nhung\main.o: ../Core/Inc/BUTTON.h
 thiet ke he thong nhung\main.o: ../Core/Inc/Setpoint_Interrupt.h
+thiet ke he thong nhung\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

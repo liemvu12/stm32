@@ -397,6 +397,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\BUTTON.c</FilePath>
             </File>
+            <File>
+              <FileName>Setpoint_Interrup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\Setpoint_Interrup.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

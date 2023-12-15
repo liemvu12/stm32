@@ -8,8 +8,7 @@ extern "C" {
 #include "stm32f1xx_hal.h"
 #include "CLCD_I2C.h"
 #include "BUTTON.h"
-#include "stdio.h"
-
+#include "stdint.h"
 
 #define CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
 

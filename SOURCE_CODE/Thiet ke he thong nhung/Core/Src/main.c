@@ -18,8 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "BUTTON.h"
 #include "CLCD_I2C.h"
+#include "BUTTON.h"
 #include "Setpoint_Interrupt.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -102,12 +102,6 @@ CLCD_I2C_Init(&LCD1, &hi2c1, 0x4e, 20, 4);
   while (1)
   {
     /* USER CODE END WHILE */
-CLCD_I2C_SetCursor(&LCD1, 0, 0);
-CLCD_I2C_WriteString(&LCD1, "Data la :");
-CLCD_I2C_SetCursor(&LCD1, 5, 1);
-CLCD_I2C_WriteString(&LCD1, "Data");
-
-
 
     /* USER CODE BEGIN 3 */
   }
@@ -199,10 +193,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*Configure GPIO pins : BUTTON_MODE_Pin BUTTON_UPI_Pin BUTTON_DOWN_Pin */
+  /*Configure GPIO pins : BUTTON_MODE_Pin BUTTON_UP_Pin BUTTON_DOWN_Pin */
   GPIO_InitStruct.Pin = BUTTON_MODE_Pin|BUTTON_UP_Pin|BUTTON_DOWN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
