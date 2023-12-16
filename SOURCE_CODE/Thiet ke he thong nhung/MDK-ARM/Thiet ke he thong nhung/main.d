@@ -30,3 +30,4 @@ thiet ke he thong nhung\main.o: ../Core/Inc/CLCD_I2C.h
 thiet ke he thong nhung\main.o: ../Core/Inc/BUTTON.h
 thiet ke he thong nhung\main.o: ../Core/Inc/Setpoint_Interrupt.h
 thiet ke he thong nhung\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+thiet ke he thong nhung\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

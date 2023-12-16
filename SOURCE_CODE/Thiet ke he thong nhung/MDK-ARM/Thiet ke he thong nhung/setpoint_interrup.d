@@ -29,3 +29,4 @@ thiet ke he thong nhung\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc
 thiet ke he thong nhung\setpoint_interrup.o: ../Core/Inc/CLCD_I2C.h
 thiet ke he thong nhung\setpoint_interrup.o: ../Core/Inc/BUTTON.h
 thiet ke he thong nhung\setpoint_interrup.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+thiet ke he thong nhung\setpoint_interrup.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
