@@ -3,7 +3,7 @@
 <title>Static Call Graph - [TEST_LCD8BIT\TEST_LCD8BIT.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image TEST_LCD8BIT\TEST_LCD8BIT.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 18 23:41:37 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 19 00:21:59 2023
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -718,8 +718,8 @@ Global Symbols
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Data_Down
 </UL>
 
-<P><STRONG><a name="[72]"></a>Read_Button_Mode</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, setpoint_interrup.o(i.Read_Button_Mode))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Read_Button_Mode &rArr; BUTTON_Read &rArr; HAL_Delay
+<P><STRONG><a name="[72]"></a>Read_Button_Mode</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, setpoint_interrup.o(i.Read_Button_Mode))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = Read_Button_Mode &rArr; BUTTON_Read &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BUTTON_Read
 </UL>
@@ -729,7 +729,7 @@ Global Symbols
 <P><STRONG><a name="[9]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f1xx_it.o(i.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xb.o(RESET)
 </UL>
-<P><STRONG><a name="[73]"></a>Setpoint_Interrupt_Mode</STRONG> (Thumb, 350 bytes, Stack size 48 bytes, setpoint_interrup.o(i.Setpoint_Interrupt_Mode))
+<P><STRONG><a name="[73]"></a>Setpoint_Interrupt_Mode</STRONG> (Thumb, 300 bytes, Stack size 48 bytes, setpoint_interrup.o(i.Setpoint_Interrupt_Mode))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216 + Unknown Stack Size
 <LI>Call Chain = Setpoint_Interrupt_Mode &rArr; Data_Up &rArr; Printf_data &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -769,7 +769,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xb.o(RESET)
 </UL>
-<P><STRONG><a name="[48]"></a>main</STRONG> (Thumb, 144 bytes, Stack size 48 bytes, main.o(i.main))
+<P><STRONG><a name="[48]"></a>main</STRONG> (Thumb, 148 bytes, Stack size 48 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264 + Unknown Stack Size
 <LI>Call Chain = main &rArr; Setpoint_Interrupt_Mode &rArr; Data_Up &rArr; Printf_data &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>

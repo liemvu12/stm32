@@ -14,9 +14,9 @@ extern "C" {
 #define CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
 
 typedef enum {
-	MODE_TEMPERATURE , 
-	MODE_HUMIDITY ,
-	MODE_TIME ,
+	MODE_TEMPERATURE =0 , 
+	MODE_HUMIDITY = 1 ,
+	MODE_TIME = 2 ,
 } Mode_State; 
 
 typedef struct {
@@ -37,9 +37,9 @@ int Data_Down(int *number, BUTTON_Name *BUTTON, CLCD_Name *LCD, int Min, int Max
 
 int Data_Up(int *number, BUTTON_Name *BUTTON, CLCD_Name *LCD, int Min, int Max);
 
-Mode_State Read_Button_Mode (Mode_State currentMode, BUTTON_Name *BUTTON);
+Mode_State Read_Button_Mode (Mode_State currentMode, BUTTON_Name *BUTTON,int *clickCount);
 
-Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *LCD, Mode_State currentMode);
+Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *LCD, Mode_State currentMode,int *clickCount);
 
 
 #ifdef __cplusplus

@@ -50,6 +50,7 @@ CLCD_Name LCD1;
 Set_Button Button;
 Setpoint Data;
 Mode_State currentMode;
+int clickCount;
 
 /* USER CODE END PV */
 
@@ -94,7 +95,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  	BUTTON_Init(&Button.DOWN, BUTTON_DOWN_GPIO_Port, BUTTON_DOWN_Pin);
+  BUTTON_Init(&Button.DOWN, BUTTON_DOWN_GPIO_Port, BUTTON_DOWN_Pin);
 	BUTTON_Init(&Button.UP, BUTTON_UP_GPIO_Port, BUTTON_UP_Pin);
 	BUTTON_Init(&Button.MODE, BUTTON_MODE_GPIO_Port, BUTTON_MODE_Pin);
 	CLCD_4BIT_Init(&LCD1, 16,2, CS_GPIO_Port,CS_Pin ,EN_GPIO_Port,EN_Pin ,D4_GPIO_Port,D4_Pin, D5_GPIO_Port,D5_Pin,D6_GPIO_Port,D6_Pin,D7_GPIO_Port, D7_Pin);
@@ -105,7 +106,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	Data = Setpoint_Interrupt_Mode(&Data, &Button, &LCD1, currentMode);
+	Data = Setpoint_Interrupt_Mode(&Data, &Button, &LCD1, currentMode,&clickCount);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
