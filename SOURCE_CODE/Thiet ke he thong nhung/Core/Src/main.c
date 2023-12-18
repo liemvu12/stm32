@@ -47,9 +47,7 @@ I2C_HandleTypeDef hi2c1;
 /* USER CODE BEGIN PV */
 
 CLCD_I2C_Name LCD1;
-BUTTON_Name BUTTON_DOWN;
-BUTTON_Name BUTTON_UP;
-BUTTON_Name BUTTON_MODE;
+Set_Button Button;
 Setpoint Data;
 Mode_State currentMode;
 
@@ -100,9 +98,9 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 	CLCD_I2C_Init(&LCD1, &hi2c1, 0x4e, 20, 4); 
-	BUTTON_Init(&BUTTON_DOWN, BUTTON_DOWN_GPIO_Port, BUTTON_DOWN_Pin);
-	BUTTON_Init(&BUTTON_UP, BUTTON_UP_GPIO_Port, BUTTON_UP_Pin);
-	BUTTON_Init(&BUTTON_MODE, BUTTON_MODE_GPIO_Port, BUTTON_MODE_Pin);
+	BUTTON_Init(&Button.DOWN, BUTTON_DOWN_GPIO_Port, BUTTON_DOWN_Pin);
+	BUTTON_Init(&Button.UP, BUTTON_UP_GPIO_Port, BUTTON_UP_Pin);
+	BUTTON_Init(&Button.MODE, BUTTON_MODE_GPIO_Port, BUTTON_MODE_Pin);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,7 +108,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	Setpoint_Interrupt_Mode(&Data, &BUTTON_UP, &BUTTON_DOWN, &BUTTON_MODE, &LCD1, currentMode);
+	Data = Setpoint_Interrupt_Mode(&Data, &Button, &LCD1, currentMode);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
