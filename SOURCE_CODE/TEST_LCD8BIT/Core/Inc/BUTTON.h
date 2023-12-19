@@ -16,6 +16,7 @@
 #define __BUTTON_H
 
 #include "stm32f1xx_hal.h"
+#include "delay.h"
 
 #define DEBOUND_TIME 50
 #define SINGLE_CLICK_TIME 1000

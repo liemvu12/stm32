@@ -95,7 +95,7 @@ Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *
 								Printf_data( &Data->humidity, LCD);
                 Data_Down(&Data->humidity, &Button->DOWN, LCD, 0, 100);
                 Data_Up(&Data->humidity, &Button->UP, LCD, 0, 100);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_HUMIDITY)
+								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_HUMIDITY||BUTTON_Read(&Button->SETTING))
 									break;
             }
             break;
@@ -107,7 +107,7 @@ Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *
                 Printf_data( &Data->temperature, LCD);
 								Data_Down(&Data->temperature, &Button->DOWN, LCD, 10, 40);
                 Data_Up(&Data->temperature, &Button->UP, LCD, 10, 40);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TEMPERATURE)
+								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TEMPERATURE||BUTTON_Read(&Button->SETTING))
 									break;
             }
             break;
@@ -119,7 +119,7 @@ Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *
 								Printf_data( &Data->time, LCD);
 								Data_Down(&Data->time, &Button->DOWN, LCD, 1, 60);
                 Data_Up(&Data->time, &Button->UP, LCD, 1, 60);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TIME)
+								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TIME||BUTTON_Read(&Button->SETTING))
 									break;
             }
             break;

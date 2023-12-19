@@ -28,7 +28,7 @@ CLCD_WriteString(&LCD1,"Hello anh em");
 //************************ Low Level Function *****************************************//
 static void CLCD_Delay(uint16_t Time)
 {
-	HAL_Delay(Time);
+	SysTick_delay(Time);
 	
 }
 static void CLCD_Write8(CLCD_Name* LCD, uint8_t Data, uint8_t Mode)

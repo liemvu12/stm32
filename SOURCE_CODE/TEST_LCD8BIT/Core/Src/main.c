@@ -51,6 +51,7 @@ Set_Button Button;
 Setpoint Data;
 Mode_State currentMode;
 int clickCount;
+volatile uint8_t interruptFlag = 0;
 
 /* USER CODE END PV */
 
@@ -63,7 +64,21 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(GPIO_Pin);
+	if(GPIO_Pin == BUTTON_SETTING_Pin){
+		interruptFlag = ~interruptFlag;
+		HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+		while (interruptFlag) {
+		Setpoint_Interrupt_Mode (&Data, &Button,&LCD1,currentMode,&clickCount);
+		}
+	}
+  // C?p nh?t d? li?u setpoint và thay d?i tr?ng thái
 
+  // Quay l?i ng? ti?p
+}
 /* USER CODE END 0 */
 
 /**
@@ -98,6 +113,7 @@ int main(void)
   BUTTON_Init(&Button.DOWN, BUTTON_DOWN_GPIO_Port, BUTTON_DOWN_Pin);
 	BUTTON_Init(&Button.UP, BUTTON_UP_GPIO_Port, BUTTON_UP_Pin);
 	BUTTON_Init(&Button.MODE, BUTTON_MODE_GPIO_Port, BUTTON_MODE_Pin);
+	BUTTON_Init(&Button.SETTING, BUTTON_SETTING_GPIO_Port, BUTTON_SETTING_Pin);
 	CLCD_4BIT_Init(&LCD1, 16,2, CS_GPIO_Port,CS_Pin ,EN_GPIO_Port,EN_Pin ,D4_GPIO_Port,D4_Pin, D5_GPIO_Port,D5_Pin,D6_GPIO_Port,D6_Pin,D7_GPIO_Port, D7_Pin);
   /* USER CODE END 2 */
 
@@ -106,7 +122,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	Data = Setpoint_Interrupt_Mode(&Data, &Button, &LCD1, currentMode,&clickCount);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -160,15 +175,30 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, LED_Pin|D5_Pin|D6_Pin|D7_Pin
+                          |EN_Pin|CS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, D5_Pin|D6_Pin|D7_Pin|EN_Pin
-                          |CS_Pin, GPIO_PIN_RESET);
+  /*Configure GPIO pins : LED_Pin D5_Pin D6_Pin D7_Pin
+                           EN_Pin CS_Pin */
+  GPIO_InitStruct.Pin = LED_Pin|D5_Pin|D6_Pin|D7_Pin
+                          |EN_Pin|CS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_SETTING_Pin */
+  GPIO_InitStruct.Pin = BUTTON_SETTING_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BUTTON_SETTING_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : BUTTON_UP_Pin BUTTON_DOWN_Pin BUTTON_MODE_Pin */
   GPIO_InitStruct.Pin = BUTTON_UP_Pin|BUTTON_DOWN_Pin|BUTTON_MODE_Pin;
@@ -183,14 +213,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(D4_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : D5_Pin D6_Pin D7_Pin EN_Pin
-                           CS_Pin */
-  GPIO_InitStruct.Pin = D5_Pin|D6_Pin|D7_Pin|EN_Pin
-                          |CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

@@ -20,7 +20,7 @@ CLCD_8BIT_WriteString(&LCD1,"Hello anh em");
 #define __CLCD_H
 
 #include "stm32f1xx_hal.h" // Chuyen doi chip dang su dung
-
+#include "delay.h"
 // constant
 #define CLCD_COMMAND 						0x00
 #define CLCD_DATA 							0x01

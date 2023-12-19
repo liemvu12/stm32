@@ -26,6 +26,7 @@ test_lcd8bit\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 test_lcd8bit\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 test_lcd8bit\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 test_lcd8bit\main.o: ../Core/Inc/CLCD.h
+test_lcd8bit\main.o: ../Core/Inc/delay.h
 test_lcd8bit\main.o: ../Core/Inc/BUTTON.h
 test_lcd8bit\main.o: ../Core/Inc/Setpoint_Interrupt.h
 test_lcd8bit\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

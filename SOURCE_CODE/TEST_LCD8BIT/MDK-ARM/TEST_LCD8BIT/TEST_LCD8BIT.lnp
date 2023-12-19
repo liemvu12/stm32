@@ -3,6 +3,7 @@
 "test_lcd8bit\clcd.o"
 "test_lcd8bit\setpoint_interrup.o"
 "test_lcd8bit\button.o"
+"test_lcd8bit\delay.o"
 "test_lcd8bit\main.o"
 "test_lcd8bit\stm32f1xx_it.o"
 "test_lcd8bit\stm32f1xx_hal_msp.o"

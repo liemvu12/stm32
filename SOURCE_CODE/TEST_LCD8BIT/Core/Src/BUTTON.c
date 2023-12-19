@@ -21,7 +21,7 @@ static uint8_t BUTTON_ReadPin(BUTTON_Name* Button)
 }
 static void BUTTON_DelayMs(uint16_t Time)
 {
-	HAL_Delay(Time);
+	SysTick_delay(Time);
 }
 
 // ************************** High Level Layer *****************************************************//

@@ -29,6 +29,7 @@ typedef struct {
 	BUTTON_Name UP ;
 	BUTTON_Name DOWN ;
 	BUTTON_Name MODE;
+	BUTTON_Name SETTING;
 } Set_Button ;
 
 void Printf_Data(int number, char *output);
