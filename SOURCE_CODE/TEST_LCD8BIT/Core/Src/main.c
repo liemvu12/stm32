@@ -51,8 +51,6 @@ Set_Button Button;
 Setpoint Data;
 Mode_State currentMode;
 int clickCount;
-volatile uint8_t interruptFlag = 0;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,21 +62,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  /* Prevent unused argument(s) compilation warning */
-  UNUSED(GPIO_Pin);
-	if(GPIO_Pin == BUTTON_SETTING_Pin){
-		interruptFlag = ~interruptFlag;
-		HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
-		while (interruptFlag) {
-		Setpoint_Interrupt_Mode (&Data, &Button,&LCD1,currentMode,&clickCount);
-		}
-	}
-  // C?p nh?t d? li?u setpoint và thay d?i tr?ng thái
 
-  // Quay l?i ng? ti?p
-}
 /* USER CODE END 0 */
 
 /**
@@ -122,6 +106,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+		Data = Setpoint_Interrupt_Mode(&Data, &Button, &LCD1, currentMode, &clickCount);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

@@ -1,5 +1,10 @@
 #include "Setpoint_Interrupt.h"
-
+void Set_interrup_Flag(BUTTON_Name *BUTTON, CLCD_Name *LCD){
+		if(BUTTON_Read(BUTTON)) {
+			interruptFlag =~interruptFlag;
+			CLCD_Clear(LCD);
+		}
+}
 void Printf_data(int *number, CLCD_Name *LCD) {
     char output[4];
     sprintf(output, "%d", *number);
@@ -8,9 +13,7 @@ void Printf_data(int *number, CLCD_Name *LCD) {
 }
 
 int Data_Down(int *number, BUTTON_Name *BUTTON, CLCD_Name *LCD, int Min, int Max) {
-    BUTTON_STATE state;
-    state = BUTTON_Read(BUTTON);
-    switch (state) {
+    switch (BUTTON_Read(BUTTON)) {
         case SINGLE_CLICK:
             (*number) -= 1;
             *number = CLAMP(*number, Min, Max);
@@ -39,9 +42,7 @@ int Data_Down(int *number, BUTTON_Name *BUTTON, CLCD_Name *LCD, int Min, int Max
 }
 
 int Data_Up(int *number, BUTTON_Name *BUTTON, CLCD_Name *LCD, int Min, int Max) {
-    BUTTON_STATE state;
-    state = BUTTON_Read(BUTTON);
-    switch (state) {
+    switch (BUTTON_Read(BUTTON)) {
         case SINGLE_CLICK:
             (*number) += 1;
             *number = CLAMP(*number, Min, Max);
@@ -73,7 +74,7 @@ Mode_State Read_Button_Mode(Mode_State currentMode, BUTTON_Name *BUTTON, int *cl
     if(BUTTON_Read(BUTTON)) {		
 		 (*clickCount) ++; 
 			}
-    switch ((*clickCount) %=3) {
+    switch ((*clickCount)%3) {
         case 0:
             return MODE_TEMPERATURE;
         case 1:
@@ -81,46 +82,41 @@ Mode_State Read_Button_Mode(Mode_State currentMode, BUTTON_Name *BUTTON, int *cl
         case 2:
             return MODE_TIME;
         default:
-            return currentMode;
+            break;
     }
+		return currentMode;
 }
 
-Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *LCD, Mode_State currentMode,int *clickCount) {
-    switch (Read_Button_Mode(currentMode, &Button->MODE, clickCount)) {
+Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_Name *LCD, Mode_State currentMode,int *clickCount) {  
+	switch (Read_Button_Mode(currentMode, &Button->MODE, clickCount)) {
         case MODE_HUMIDITY:
             CLCD_Clear(LCD);
             CLCD_SetCursor(LCD, 0, 0);
             CLCD_WriteString(LCD, "Humidity(%):");
-            while (1) {
-								Printf_data( &Data->humidity, LCD);
+            while (Read_Button_Mode(currentMode, &Button->MODE, clickCount) == MODE_HUMIDITY ) {
+								Printf_data(&Data->humidity, LCD);
                 Data_Down(&Data->humidity, &Button->DOWN, LCD, 0, 100);
                 Data_Up(&Data->humidity, &Button->UP, LCD, 0, 100);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_HUMIDITY||BUTTON_Read(&Button->SETTING))
-									break;
             }
             break;
         case MODE_TEMPERATURE:
             CLCD_Clear(LCD);
             CLCD_SetCursor(LCD, 0, 0);
             CLCD_WriteString(LCD, "Temperature(C):");
-            while (1) {
+            while (Read_Button_Mode(currentMode, &Button->MODE, clickCount) == MODE_TEMPERATURE ) {
                 Printf_data( &Data->temperature, LCD);
 								Data_Down(&Data->temperature, &Button->DOWN, LCD, 10, 40);
                 Data_Up(&Data->temperature, &Button->UP, LCD, 10, 40);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TEMPERATURE||BUTTON_Read(&Button->SETTING))
-									break;
             }
             break;
 					case MODE_TIME:
             CLCD_Clear(LCD);
             CLCD_SetCursor(LCD, 0, 0);
             CLCD_WriteString(LCD, "Time(minute):");
-            while (1) {
+            while (Read_Button_Mode(currentMode, &Button->MODE, clickCount) == MODE_TIME) {
 								Printf_data( &Data->time, LCD);
 								Data_Down(&Data->time, &Button->DOWN, LCD, 1, 60);
                 Data_Up(&Data->time, &Button->UP, LCD, 1, 60);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TIME||BUTTON_Read(&Button->SETTING))
-									break;
             }
             break;
         default:

@@ -12,6 +12,7 @@ extern "C" {
 #include "stdbool.h"
 
 #define CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
+static volatile uint8_t interruptFlag = 0;
 
 typedef enum {
 	MODE_TEMPERATURE =0 , 
@@ -31,6 +32,8 @@ typedef struct {
 	BUTTON_Name MODE;
 	BUTTON_Name SETTING;
 } Set_Button ;
+
+void Set_interrup_Flag (BUTTON_Name *BUTTON, CLCD_Name *LCD);
 
 void Printf_Data(int number, char *output);
 
