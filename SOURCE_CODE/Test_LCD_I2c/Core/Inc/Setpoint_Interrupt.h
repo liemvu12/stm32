@@ -9,7 +9,6 @@ extern "C" {
 #include "CLCD_I2C.h"
 #include "BUTTON.h"
 #include "stdio.h"
-#include "stdbool.h"
 
 #define CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
 static volatile uint8_t interruptFlag = 0;
@@ -21,28 +20,21 @@ typedef enum {
 } Mode_State; 
 
 typedef struct {
-	int time;
-	int temperature;
-	int humidity;
+	uint16_t time;
+	uint16_t temperature;
+	uint16_t humidity;
 } Setpoint; 
 
 typedef struct {
-	BUTTON_Name UP ;
-	BUTTON_Name DOWN ;
 	BUTTON_Name MODE;
 	BUTTON_Name SETTING;
 } Set_Button ;
 
-void Printf_data(int *number, CLCD_I2C_Name *LCD);
+uint16_t Data_Update(uint16_t *number, CLCD_I2C_Name *LCD, uint16_t newMin, uint16_t newMax, ADC_HandleTypeDef *hadc);
 
-int Data_Down(int *number, BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD, int Min, int Max);
+Mode_State Read_Button_Mode (Mode_State currentMode, BUTTON_Name *BUTTON,uint16_t *clickCount);
 
-int Data_Up(int *number, BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD, int Min, int Max);
-
-Mode_State Read_Button_Mode (Mode_State currentMode, BUTTON_Name *BUTTON,int *clickCount);
-
-Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_I2C_Name *LCD, Mode_State currentMode,int *clickCount);
-
+Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_I2C_Name *LCD, Mode_State currentMode,uint16_t *clickCount, ADC_HandleTypeDef *hadc);
 
 #ifdef __cplusplus
 }

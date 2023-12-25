@@ -21,6 +21,8 @@ test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_
 test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
 test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h
+test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h
 test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 test_lcd_i2c\stm32f1xx_hal_dma.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h

@@ -22,12 +22,13 @@ test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h
+test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 test_lcd_i2c\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+test_lcd_i2c\main.o: ../Core/Inc/button.h
 test_lcd_i2c\main.o: ../Core/Inc/CLCD_I2C.h
-test_lcd_i2c\main.o: ../Core/Inc/BUTTON.h
-test_lcd_i2c\main.o: ../Core/Inc/Setpoint_Interrupt.h
 test_lcd_i2c\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-test_lcd_i2c\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+test_lcd_i2c\main.o: ../Core/Inc/Setpoint_Interrupt.h

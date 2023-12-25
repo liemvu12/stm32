@@ -62,10 +62,6 @@ void Error_Handler(void);
 #define BUTTON_SETTING_EXTI_IRQn EXTI15_10_IRQn
 #define BUTTON_MODE_Pin GPIO_PIN_13
 #define BUTTON_MODE_GPIO_Port GPIOB
-#define BUTTON_DOWN_Pin GPIO_PIN_14
-#define BUTTON_DOWN_GPIO_Port GPIOB
-#define BUTTON_UP_Pin GPIO_PIN_15
-#define BUTTON_UP_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_8
 #define LED_GPIO_Port GPIOA
 

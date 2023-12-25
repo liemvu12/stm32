@@ -22,6 +22,8 @@ test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_
 test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
 test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h
+test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h
 test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
@@ -29,4 +31,3 @@ test_lcd_i2c\setpoint_interrup.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_
 test_lcd_i2c\setpoint_interrup.o: ../Core/Inc/CLCD_I2C.h
 test_lcd_i2c\setpoint_interrup.o: ../Core/Inc/BUTTON.h
 test_lcd_i2c\setpoint_interrup.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-test_lcd_i2c\setpoint_interrup.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
