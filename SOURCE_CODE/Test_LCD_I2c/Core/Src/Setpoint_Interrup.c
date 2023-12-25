@@ -1,10 +1,5 @@
 #include "Setpoint_Interrupt.h"
-void Set_interrup_Flag(BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD){
-		if(BUTTON_Read(BUTTON)) {
-			interruptFlag =~interruptFlag;
-			CLCD_I2C_Clear(LCD);
-		}
-}
+
 void Printf_data(int *number, CLCD_I2C_Name *LCD) {
     char output[4];
     sprintf(output, "%d", *number);
@@ -19,16 +14,8 @@ int Data_Down(int *number, BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD, int Min, int
             *number = CLAMP(*number, Min, Max);
             Printf_data(number, LCD);
             break;
-        case DOUBLE_CLICK:
-            for (int i = 0; i <= 2; i++) {
-                (*number) -= 1;
-                *number = CLAMP(*number, Min, Max);
-                Printf_data(number, LCD);
-                HAL_Delay(50);
-            }
-            break;
-        case LONGCLICK_1S:
-            for (int i = 0; i <= BUTTON->timePress / 10; i++) {
+        case LONG_CLICK:
+            for (int i= 0; i <= BUTTON->timePress / 1000; i++) {
                 (*number) -= 1;
                 *number = CLAMP(*number, Min, Max);
                 Printf_data(number, LCD);
@@ -48,16 +35,8 @@ int Data_Up(int *number, BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD, int Min, int M
             *number = CLAMP(*number, Min, Max);
             Printf_data(number, LCD);
             break;
-        case DOUBLE_CLICK:
-            for (int i = 0; i <= 2; i++) {
-                (*number) += 1;
-                *number = CLAMP(*number, Min, Max);
-                Printf_data(number, LCD);
-                HAL_Delay(50);
-            }
-            break;
-        case LONGCLICK_1S:
-            for (int i = 0; i <= BUTTON->timePress / 10; i++) {
+        case LONG_CLICK:
+            for (int i = 0; i <= BUTTON->timePress / 1000; i++) {
                 (*number) += 1;
                 *number = CLAMP(*number, Min, Max);
                 Printf_data(number, LCD);
@@ -71,7 +50,7 @@ int Data_Up(int *number, BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD, int Min, int M
 }
 
 Mode_State Read_Button_Mode(Mode_State currentMode, BUTTON_Name *BUTTON, int *clickCount) {
-    if(BUTTON_Read(BUTTON)) {		
+    if(BUTTON_Read(BUTTON) != NO_CLICK) {		
 		 (*clickCount) ++; 
 			}
     switch ((*clickCount)%3) {
@@ -88,7 +67,7 @@ Mode_State Read_Button_Mode(Mode_State currentMode, BUTTON_Name *BUTTON, int *cl
 }
 
 Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_I2C_Name *LCD, Mode_State currentMode,int *clickCount) {
-    switch (Read_Button_Mode(currentMode, &Button->MODE, clickCount)) {
+	switch (Read_Button_Mode(currentMode, &Button->MODE, clickCount)) {
         case MODE_HUMIDITY:
             CLCD_I2C_Clear(LCD);
             CLCD_I2C_SetCursor(LCD, 0, 0);
@@ -127,6 +106,6 @@ Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_I2C_Na
             break;
         default:
             break;
-    }
+				}
     return *Data;
 }

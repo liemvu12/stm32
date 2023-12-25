@@ -51,6 +51,7 @@ Set_Button Button;
 Setpoint Data;
 Mode_State currentMode;
 int clickCount;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,8 +107,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-		Data = Setpoint_Interrupt_Mode (&Data, &Button, &LCD1, currentMode, &clickCount);	
+		Data = Setpoint_Interrupt_Mode(&Data,&Button, &LCD1, currentMode, &clickCount);
 		/* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

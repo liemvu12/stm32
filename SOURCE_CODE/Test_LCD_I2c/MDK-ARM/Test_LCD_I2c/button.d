@@ -1,5 +1,5 @@
 test_lcd_i2c\button.o: ..\Core\Src\BUTTON.c
-test_lcd_i2c\button.o: ../Core/Inc/BUTTON.h
+test_lcd_i2c\button.o: ../Core/Inc/button.h
 test_lcd_i2c\button.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 test_lcd_i2c\button.o: ../Core/Inc/stm32f1xx_hal_conf.h
 test_lcd_i2c\button.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
@@ -26,4 +26,3 @@ test_lcd_i2c\button.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 test_lcd_i2c\button.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 test_lcd_i2c\button.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 test_lcd_i2c\button.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-test_lcd_i2c\button.o: ../Core/Inc/delay.h

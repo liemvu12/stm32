@@ -33,9 +33,7 @@ typedef struct {
 	BUTTON_Name SETTING;
 } Set_Button ;
 
-void Set_interrup_Flag (BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD);
-
-void Printf_Data(int number, char *output);
+void Printf_data(int *number, CLCD_I2C_Name *LCD);
 
 int Data_Down(int *number, BUTTON_Name *BUTTON, CLCD_I2C_Name *LCD, int Min, int Max);
 
