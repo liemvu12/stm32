@@ -11,7 +11,6 @@ extern "C" {
 #include "stdio.h"
 
 #define CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
-static volatile uint8_t interruptFlag = 0;
 
 typedef enum {
 	MODE_TEMPERATURE =0 , 
@@ -22,7 +21,6 @@ typedef enum {
 typedef struct {
 	uint16_t time;
 	uint16_t temperature;
-	uint16_t humidity;
 } Setpoint; 
 
 typedef struct {

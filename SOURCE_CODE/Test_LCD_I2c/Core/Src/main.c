@@ -52,7 +52,7 @@ Set_Button Button;
 Setpoint Data;
 Mode_State currentMode;
 uint16_t clickCount;
-
+uint8_t Flag =0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,12 +67,18 @@ static void MX_ADC1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 /* USER CODE END 0 */
-uint16_t readValue;
-char Value[5];
 /**
   * @brief  The application entry point.
   * @retval int
   */
+void toggleInterruptFlag(uint8_t *interruptFlag) {
+   *interruptFlag = (*interruptFlag == 0) ? 1 : 0;
+}
+void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
+	if(GPIO_Pin == BUTTON_SETTING_Pin){
+		toggleInterruptFlag (&Flag);
+	}
+}
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -102,8 +108,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_ADC_Start(&hadc1);
 	CLCD_I2C_Init(&LCD1,&hi2c1,0x4e,16,2);
-	BUTTON_Init(&Button.MODE, BUTTON_MODE_GPIO_Port, BUTTON_MODE_Pin);
-	BUTTON_Init(&Button.SETTING, BUTTON_SETTING_GPIO_Port, BUTTON_SETTING_Pin);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -111,8 +115,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	Data = Setpoint_Interrupt_Mode(&Data, &Button,&LCD1, currentMode, &clickCount, &hadc1);
-    /* USER CODE BEGIN 3 */
+		while(Flag){
+		Data = Setpoint_Interrupt_Mode(&Data, &Button,&LCD1, currentMode, &clickCount, &hadc1);   
+		HAL_Delay(50);
+		}/* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }

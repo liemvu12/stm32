@@ -36,10 +36,10 @@ Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_I2C_Na
         case MODE_HUMIDITY:
             CLCD_I2C_Clear(LCD);
             CLCD_I2C_SetCursor(LCD, 0, 0);
-            CLCD_I2C_WriteString(LCD, "Humidity(%):");
+            CLCD_I2C_WriteString(LCD, "Temperature(C):");
             while (1) {
-								Data_Update(&Data->humidity, LCD, 0, 101, hadc);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_HUMIDITY||BUTTON_Read(&Button->SETTING))
+								Data_Update(&Data->temperature,LCD, 10, 41, hadc);
+								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TEMPERATURE||BUTTON_Read(&Button->SETTING))
 									break;
             }
             break;
@@ -56,10 +56,10 @@ Setpoint Setpoint_Interrupt_Mode(Setpoint *Data, Set_Button *Button, CLCD_I2C_Na
 					case MODE_TIME:
             CLCD_I2C_Clear(LCD);
             CLCD_I2C_SetCursor(LCD, 0, 0);
-            CLCD_I2C_WriteString(LCD, "Time(minute):");
+            CLCD_I2C_WriteString(LCD, "Temperature(C):");
             while (1) {
-								Data_Update(&Data->time, LCD, 1, 61, hadc);
-								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TIME||BUTTON_Read(&Button->SETTING))
+								Data_Update(&Data->temperature,LCD, 10, 41, hadc);
+								if(Read_Button_Mode(currentMode, &Button->MODE, clickCount) != MODE_TEMPERATURE||BUTTON_Read(&Button->SETTING))
 									break;
             }
             break;
