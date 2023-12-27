@@ -86,8 +86,8 @@ void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
 		toggleInterruptFlag (&Flag);
 	}
 }
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim){
-	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); 
+void HAL_TIM_PeriodElapsedCallback(TIM_HallSensor_InitTypeDef *htim){
+	
 }
 int main(void)
 {
@@ -132,7 +132,6 @@ int main(void)
 		Data = Setpoint_Interrupt_Mode(&Data, &Button,&LCD1, currentMode, &clickCount, &hadc1);   
 		HAL_Delay(50);
 		}
-		HAL_PWR_EnterSLEEPMode(PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFE);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -281,9 +280,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 399;
+  htim2.Init.Prescaler = 7199;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 39999;
+  htim2.Init.Period = 49999;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
