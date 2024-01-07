@@ -26,6 +26,7 @@
 #include "delay_timer.h"
 #include "math.h"
 #include "i2c-lcd.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 // Khai báo bi?n d? luu tr? tr?ng thái dèn
@@ -68,9 +69,9 @@ DS18B20_Name DS1;
 float Temp;
 float Data ;
 
-float Kp = 1.0;                      
-float Ki = 0.1;                     
-float Kd = 20;   
+float Kp = 5;                      
+float Ki = 0.005;                     
+float Kd = 45;   
 
 float prev_error = 0.0;
 float integral = 0.0;
@@ -112,7 +113,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim){
 }
 void Printf_Sever(char *data_send, float Temp){
 		sprintf(data_send, "Temperature: %.2f\n", Temp);
-    HAL_UART_Transmit(&huart1, (uint8_t*)data_send, strlen(data_send), HAL_MAX_DELAY);}
+    HAL_UART_Transmit(&huart1, (uint8_t*)data_send, strlen(data_send), HAL_MAX_DELAY);
+}
 
 /* USER CODE END 0 */
 
@@ -531,7 +533,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(Trans_GPIO_Port, Trans_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DS18B20_GPIO_Port, DS18B20_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|DS18B20_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : Trans_Pin */
   GPIO_InitStruct.Pin = Trans_Pin;
@@ -540,18 +542,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(Trans_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : PB11 DS18B20_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_11|DS18B20_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pin : BUTTON_SETTING_Pin */
   GPIO_InitStruct.Pin = BUTTON_SETTING_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(BUTTON_SETTING_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : DS18B20_Pin */
-  GPIO_InitStruct.Pin = DS18B20_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DS18B20_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
