@@ -19,6 +19,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "CLCD_I2C.h"
+#include <stdio.h>
+#include "Setpoint_Interrupt.h"
+#include "DS18B20.h"
+#include "delay_timer.h"
+#include "math.h"
+#include "i2c-lcd.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -55,7 +63,7 @@ osThreadId_t Read_Sensor_TasHandle;
 const osThreadAttr_t Read_Sensor_Tas_attributes = {
   .name = "Read_Sensor_Tas",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for Send_Task */
 osThreadId_t Send_TaskHandle;
@@ -69,7 +77,7 @@ osThreadId_t Setpoint_TaskHandle;
 const osThreadAttr_t Setpoint_Task_attributes = {
   .name = "Setpoint_Task",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for PID_Control_Tas */
 osThreadId_t PID_Control_TasHandle;
@@ -93,7 +101,47 @@ osMessageQueueId_t Send_DataHandle;
 const osMessageQueueAttr_t Send_Data_attributes = {
   .name = "Send_Data"
 };
+/* Definitions for xI2CSemaphore */
+osSemaphoreId_t xI2CSemaphoreHandle;
+const osSemaphoreAttr_t xI2CSemaphore_attributes = {
+  .name = "xI2CSemaphore"
+};
 /* USER CODE BEGIN PV */
+CLCD_I2C_Name LCD1;
+BUTTON_Setting SETTING;
+
+DS18B20_Name DS1;
+float Temp;
+float Data  = 25;
+char data_send[5];
+
+float Kp = 5;                      
+float Ki = 0.005;                     
+float Kd = 45;   
+
+float prev_error = 0.0;
+float integral = 0.0;
+
+void PID_Control(float current_temperature, float setpoint_temperature) {
+    float error = - setpoint_temperature + current_temperature;
+    float pid_output = Kp * error + Ki * integral + Kd * (error - prev_error);
+
+    if (pid_output > 100.0) {
+        pid_output = 100.0;
+    } else if (pid_output < 0.0) {
+        pid_output = 0.0;
+    }
+
+    integral += error;
+    prev_error = error;
+
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (uint32_t)(pid_output * htim2.Init.Period / 100.0));
+}
+
+void Printf_Sever(char *data_send, float Temp){
+		sprintf(data_send, "Temperature: %.2f\n", Temp);
+    HAL_UART_Transmit(&huart1, (uint8_t*)data_send, strlen(data_send), HAL_MAX_DELAY);
+}
 
 /* USER CODE END PV */
 
@@ -153,7 +201,12 @@ int main(void)
   MX_TIM4_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+	HAL_ADC_Start(&hadc1);
+	CLCD_I2C_Init(&LCD1,&hi2c1,0x4e,16,2);
+	BUTTON_Setting_Init( &SETTING, BUTTON_SETTING_GPIO_Port, BUTTON_SETTING_Pin);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+	lcd_init();
+	DS18B20_Init(&DS1, &htim4, DS18B20_GPIO_Port, DS18B20_Pin);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -162,6 +215,10 @@ int main(void)
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* creation of xI2CSemaphore */
+  xI2CSemaphoreHandle = osSemaphoreNew(1, 1, &xI2CSemaphore_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -502,20 +559,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Trans_GPIO_Port, Trans_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, Trans_Pin|Task3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|DS18B20_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, Task2_Pin|Task1_Pin|Task0_Pin|DS18B20_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : Trans_Pin */
-  GPIO_InitStruct.Pin = Trans_Pin;
+  /*Configure GPIO pins : Trans_Pin Task3_Pin */
+  GPIO_InitStruct.Pin = Trans_Pin|Task3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Trans_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB11 DS18B20_Pin */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|DS18B20_Pin;
+  /*Configure GPIO pins : Task2_Pin Task1_Pin Task0_Pin DS18B20_Pin */
+  GPIO_InitStruct.Pin = Task2_Pin|Task1_Pin|Task0_Pin|DS18B20_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -545,10 +602,21 @@ static void MX_GPIO_Init(void)
 void StartRead_Sensor_Task(void *argument)
 {
   /* USER CODE BEGIN 5 */
+	__IO uint32_t tick1 = osKernelGetTickCount();
+  	int i = 0; 
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+		Temp = DS18B20_ReadTemp(&DS1);
+		HAL_GPIO_TogglePin (Task0_GPIO_Port, Task0_Pin) ;
+		osMessageQueuePut(PID1Handle , &Temp ,0 ,0);
+		i ++;
+		if(i ==10) {
+			i = 0 ;		
+			osMessageQueuePut(Send_DataHandle , &Temp, 0, 0);
+		}
+    	tick1 += 200;
+		osDelayUntil (tick1);
   }
   /* USER CODE END 5 */
 }
@@ -563,10 +631,16 @@ void StartRead_Sensor_Task(void *argument)
 void StartSend_Task(void *argument)
 {
   /* USER CODE BEGIN StartSend_Task */
+	__IO uint32_t tick2 = osKernelGetTickCount();
+
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+  osMessageQueueGet(Send_DataHandle, &Temp, 0, osWaitForever);
+	HAL_GPIO_TogglePin (Task1_GPIO_Port, Task1_Pin) ;
+	Printf_Sever(data_send, Temp) ;
+	tick2 += 2000;
+	osDelayUntil(tick2);
   }
   /* USER CODE END StartSend_Task */
 }
@@ -581,10 +655,16 @@ void StartSend_Task(void *argument)
 void StartSetpoint_Task(void *argument)
 {
   /* USER CODE BEGIN StartSetpoint_Task */
+	__IO uint32_t tick3 = osKernelGetTickCount();
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    tick3 +=200;
+		Data = HAL_ADC_GetValue(&hadc1);
+		Data = mapToRange(Data, 10, 41);
+	osMessageQueuePut(PID2Handle, &Data, 0, 0);
+	HAL_GPIO_TogglePin (Task2_GPIO_Port, Task2_Pin) ;
+	osDelayUntil(tick3);
   }
   /* USER CODE END StartSetpoint_Task */
 }
@@ -599,10 +679,33 @@ void StartSetpoint_Task(void *argument)
 void StartPID_Control_Task(void *argument)
 {
   /* USER CODE BEGIN StartPID_Control_Task */
+  __IO uint32_t tick4 = osKernelGetTickCount();
   /* Infinite loop */
   for(;;)
-  {
-    osDelay(1);
+  {	
+  tick4 +=200 ;
+	osMessageQueueGet(PID1Handle, &Temp, 0, osWaitForever);
+	osMessageQueueGet(PID2Handle, &Data, 0, osWaitForever);
+	PID_Control(Temp, Data);
+	HAL_GPIO_TogglePin (Task3_GPIO_Port, Task3_Pin) ;
+		lcd_clear();
+		lcd_put_cur(0,0);
+		lcd_send_string("Setpoint: ");
+		sprintf(data_send,"%2.2f",Data);
+		lcd_send_string(data_send);
+		lcd_put_cur(1,2);
+    lcd_send_string("T = ");
+    lcd_put_cur(1,11);
+    lcd_send_data(223);
+    lcd_put_cur(1,12);
+    lcd_send_string("C");    		
+		sprintf(data_send,"%2.2f",Temp);
+		lcd_send_cmd(0x80|0x46);
+		lcd_send_string(data_send);
+		if (Temp <=25 ) HAL_GPIO_WritePin(Trans_GPIO_Port,Trans_Pin,1);
+		else if (Temp >=30 ) HAL_GPIO_WritePin(Trans_GPIO_Port,Trans_Pin,0);
+		HAL_Delay(100);
+	osDelayUntil(tick4);
   }
   /* USER CODE END StartPID_Control_Task */
 }

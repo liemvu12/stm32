@@ -61,6 +61,14 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define Trans_Pin GPIO_PIN_1
 #define Trans_GPIO_Port GPIOA
+#define Task3_Pin GPIO_PIN_7
+#define Task3_GPIO_Port GPIOA
+#define Task2_Pin GPIO_PIN_0
+#define Task2_GPIO_Port GPIOB
+#define Task1_Pin GPIO_PIN_10
+#define Task1_GPIO_Port GPIOB
+#define Task0_Pin GPIO_PIN_11
+#define Task0_GPIO_Port GPIOB
 #define BUTTON_SETTING_Pin GPIO_PIN_12
 #define BUTTON_SETTING_GPIO_Port GPIOB
 #define DS18B20_Pin GPIO_PIN_15
