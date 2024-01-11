@@ -27,7 +27,6 @@
 #include "math.h"
 #include "i2c-lcd.h"
 
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -77,7 +76,7 @@ osThreadId_t Setpoint_TaskHandle;
 const osThreadAttr_t Setpoint_Task_attributes = {
   .name = "Setpoint_Task",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityBelowNormal,
 };
 /* Definitions for PID_Control_Tas */
 osThreadId_t PID_Control_TasHandle;
